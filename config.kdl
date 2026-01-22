@@ -3,6 +3,10 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
+// ###########################
+// ####input teclado y eso ###
+// ###########################
+
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
@@ -16,6 +20,7 @@ input {
             // layout "us,ru"
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
 
+            layout "es"
             // If this section is empty, niri will fetch xkb settings
             // from org.freedesktop.locale1. You can control these using
             // localectl set-x11-keymap.
@@ -25,17 +30,21 @@ input {
         numlock
     }
 
+     // ###########################
+     // ##### maus de la lap ######
+     // ###########################
+
     // Next sections include libinput settings.
     // Omitting settings disables them, or leaves them at their default values.
     // All commented-out settings here are examples, not defaults.
     touchpad {
         // off
         tap
-        // dwt
-        // dwtp
+         dwt
+         dwtp
         // drag false
         // drag-lock
-        natural-scroll
+        // natural-scroll
         // accel-speed 0.2
         // accel-profile "flat"
         // scroll-method "two-finger"
@@ -69,6 +78,9 @@ input {
     // focus-follows-mouse max-scroll-amount="0%"
 }
 
+     // ###########################
+     // #####   monitores    ###### 
+     // ###########################
 
 
 // You can configure outputs by their name, which you can find
@@ -106,16 +118,22 @@ input {
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
     position x=1280 y=0
+
+
 }
+
+     // ###########################
+     // #####   ventanas     ######
+     // ###########################
 
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
-    gaps 16
+    gaps 15
 
-    // When to center a column when changing focus, options are:
+    // When to center a c	olumn when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
     //   or right edge of the screen.
     // - "always", the focused column will always be centered.
@@ -169,13 +187,13 @@ layout {
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
         // Color of the ring on the active monitor.
-        active-color "#7fc8ff"
+        active-color "#e17fff"
 
         // Color of the ring on inactive monitors.
         //
         // The focus ring only draws around the active window, so the only place
         // where you can see its inactive-color is on other monitors.
-        inactive-color "#505050"
+        inactive-color "#e17fff"
 
         // You can also use gradients. They take precedence over solid colors.
         // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
@@ -247,9 +265,11 @@ layout {
         // Offset moves the shadow relative to the window.
         offset x=0 y=5
 
-        // You can also change the shadow color and opacity.
+         //You can also change the shadow color and opacity.
         color "#0007"
+
     }
+
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
     // You can think of them as a kind of outer gaps. They are set in logical pixels.
@@ -277,7 +297,7 @@ layout {
 spawn-at-startup "swww-daemon"
 
 // Aplica el fondo con un pequeño delay
-spawn-sh-at-startup "sleep 1.5 && swww img /mnt/hdd/fonditos/hatsune-miku_5120x2880_xtrafondos.com.jpg"
+spawn-sh-at-startup "sleep 1.5 && swww img /mnt/hdd/fonditos/hatsune-miku-chica-anime_2894x1627_xtrafondos.com.jpg"
 
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
@@ -296,7 +316,7 @@ hotkey-overlay {
 // Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
 // This option will also fix border/focus ring drawing behind some semitransparent windows.
 // After enabling or disabling this, you need to restart the apps for this to take effect.
-// prefer-no-csd
+prefer-no-csd
 
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
@@ -316,6 +336,10 @@ animations {
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
 }
+  
+     // ###########################
+     // ##### transparencia  ######
+     // ###########################
 
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
@@ -329,6 +353,44 @@ window-rule {
     // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+}
+
+
+ 
+// Window rules let you adjust behavior for individual windows.
+// Find more information on the wiki:
+// https://yalter.github.io/niri/Configuration:-Window-Rules
+
+// Work around WezTerm's initial configure bug
+// by setting an empty default-column-width.
+window-rule {
+    // This regular expression is intentionally made as specific as possible,
+    // since this is the default config, and we want no false positives.
+    // You can get away with just app-id="wezterm" if you want.
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+// Transparencia para Kitty
+window-rule {
+    match app-id="kitty"
+    opacity 0.85
+}
+    
+
+// Open the Firefox picture-in-picture player as floating by default.
+window-rule {
+    // This app-id regular expression will work for both:
+    // - host Firefox (app-id is "firefox")
+    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Example: block out two password managers from screen capture.
+// (This example rule is commented out with a "/-" in front.)
+/-window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -359,6 +421,12 @@ window-rule {
     clip-to-geometry true
 }
 
+
+
+// ###########################
+// #######atajo_binds#########
+// ###########################
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -375,8 +443,11 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
+    Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "bash" "-c" "sh .config/niri/rofi.sh"; }
+    Mod+S hotkey-overlay-title="Open a steam: steam" { spawn "steam" "-cef-disable-gpu" "-cef-disable-gpu-compositing"; }
+
+
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
