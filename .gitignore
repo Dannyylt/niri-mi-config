@@ -1,0 +1,6 @@
+*.save
+*.save.*
+*.corrupted
+config.kdl+
+config.kdl+.*
+.git/
