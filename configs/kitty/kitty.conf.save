@@ -1,0 +1,8 @@
+
+background_opacity 0.5
+dynamic_background_opacity yes
+
+# Atajos para cambiar tamaño de letra
+map ctrl+shift+equal     increase_font_size
+map ctrl+shift+minus     decrease_font_size
+map ctrl+shift+backspace reset_font_size
